@@ -14,5 +14,15 @@ while True:
     except:
         print("Error, debe ingresar un numero valido")
     if accion == 1:
+        ingreso_concierto = int(input("Ingrese número de conciertos:"))
+        ingreso_dia = int(input("Ingrese número de días de ventas:"))
+    if accion == 2:
+        pass
+    if accion == 3:
+        pass
+    if accion == 4:
+        pass
+    if accion == 5:
+        pass
+    else:
         break
-    
