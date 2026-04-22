@@ -1,2 +1,2 @@
 # tarea
-print
+print(sa
