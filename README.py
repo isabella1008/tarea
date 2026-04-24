@@ -14,6 +14,7 @@ while True:
         accion = int(input("-------------------------------------------- \n1. Generar plan de ventas \n2. Ingresar entradas vendidas \n3. Visualizar ingreso total por concierto \n4. Visualizar ingreso total por día \n5. Salir del programa \n-------------------------------------------- \nAccion: ").strip())
     except:
         print("Error, debe ingresar un numero valido")
+        continue
     if accion == 1:
         conciertos = int(input("Ingrese número de conciertos: "))  # filas
         dias = int(input("Ingrese número de días de ventas: "))    # columnas
@@ -51,6 +52,7 @@ while True:
             dia_calcular = int(input("ingrese el dia a visualizar y calcular: ").strip())
         except:
             print("Error, debe ingresar un numero valido")
+            continue
         if dia_calcular == 1:
             print("concierto 1, dia 1: ", monto_total11) #muestra el total del concierto 1, dia 1
             print("concierto 2, dia 1: ", monto_total12) #muestra el total del concierto 2, dia 1
