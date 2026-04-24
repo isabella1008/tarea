@@ -73,5 +73,5 @@ while True:
         input("presione enter para cerrar...")
         break #termina el while
     else:
-        print("ERROR, porfavor seleccione 1 de las opciones disponibles (1, 2, 3, 4 o 5)") #error si el usuario no ingresa ninguna opcion
+        print("ERROR, porfavor seleccione una de las opciones disponibles (1, 2, 3, 4 o 5)") #error si el usuario no ingresa ninguna opcion
     
