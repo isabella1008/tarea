@@ -60,12 +60,12 @@ while True:
             print("concierto 1, dia 2: ", monto_total21) #muestra el total del concierto 1, dia 2
             print("concierto 2, dia 2: ", monto_total22) #muestra el total del concierto 2, dia 2
             total_dia2 = monto_total21 + monto_total22 #se suman las ganancias totales del dia 2
-            print("ingreso total dia 1: ", total_dia2) #se le muestra al usuario las ganancias totales del dia 2
+            print("ingreso total dia 2: ", total_dia2) #se le muestra al usuario las ganancias totales del dia 2
         elif dia_calcular == 3:
             print("concierto 1, dia 3: ", monto_total31) #muestra el total del concierto 1, dia 3
             print("concierto 2, dia 3: ", monto_total32) #muestra el total del concierto 2, dia 3
             total_dia3 = monto_total31 + monto_total32 #se suman las ganancias totales del dia 3
-            print("ingreso total dia 1: ", total_dia3) #se le muestra al usuario las ganancias totales del dia 3
+            print("ingreso total dia 3: ", total_dia3) #se le muestra al usuario las ganancias totales del dia 3
         else:
             print("ERROR, porfavor seleccione solo 1 de los dias disponibles (1, 2, 3)") #error si el usuario ingresa calquier cosa 
     elif accion == 5: #termino del programa
