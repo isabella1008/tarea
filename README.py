@@ -5,7 +5,7 @@ dias_1 = []
 dias_2 = []
 dias_3 = []
 tipos_plan = []
-plan_ventas = []
+matriz = []
 
 print("SISTEMA DE PLANIFICACIÓN DE VENTA DE ENTRADAS A CONCIERTOS")
 
@@ -23,7 +23,7 @@ while True:
             fila = []
             for j in range(dias):  # j = día (columna)
                 fila.append(0)  # parte en 0 porque no hay ventas
-            plan_ventas.append(fila)
+            matriz.append(fila)
 
         # mostrar tabla
         print("\nPlan de ventas")
@@ -39,7 +39,7 @@ while True:
         for i in range(conciertos):  # recorro cada fila
             print(f"Concierto {i+1:<5}", end="")
             for j in range(dias):  # recorro cada columna
-                print(f"{plan_ventas[i][j]:>5}", end="")  # valor en fila i, columna j
+                print(f"{matriz[i][j]:>5}", end="")  # valor en fila i, columna j
             print()
 
         print("*" * 40)
