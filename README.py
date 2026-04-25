@@ -16,8 +16,8 @@ while True:
         print("Error, debe ingresar un numero valido")
         continue
     if accion == 1:
-        conciertos = int(input("Ingrese número de conciertos: "))  # filas
-        dias = int(input("Ingrese número de días de ventas: "))    # columnas
+        conciertos = 2  # filas
+        dias = 3   # columnas
 
         for i in range(conciertos):  # i = concierto (fila)
             fila = []
