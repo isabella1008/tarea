@@ -16,6 +16,7 @@ while True:
         print("Error, debe ingresar un numero valido")
         continue
     if accion == 1:
+        matriz = []
         conciertos = 2  # filas
         dias = 3   # columnas
 
