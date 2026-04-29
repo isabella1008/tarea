@@ -1,11 +1,5 @@
-Concierto_1 = []
-Concierto_2 = []
-dias_1 = []
-dias_2 = []
-dias_3 = []
-tipos_plan = []
 matriz = []
-
+precio = 18500
 print("SISTEMA DE PLANIFICACIÓN DE VENTA DE ENTRADAS A CONCIERTOS")
 
 while True:
