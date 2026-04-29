@@ -106,7 +106,8 @@ while True:
                 if dia < 1 or dia > 3:
                     print("ERROR, seleccione solo 1, 2 o 3")
                     continue
-                break
+                else:
+                    pass               
             except:
                 print("Error, debe ingresar un numero valido")
                 continue
@@ -120,10 +121,10 @@ while True:
                 total_dia += ingreso
     
             print(f"Total de ingresos del día: ${total_dia}")
+            break
     elif accion == 5: #termino del programa
         print("hasta luego👋")
         input("presione enter para cerrar...")
         break #termina el while
     else:
         print("ERROR, porfavor seleccione una de las opciones disponibles (1, 2, 3, 4 o 5)") #error si el usuario no ingresa ninguna opcion
-
