@@ -76,7 +76,7 @@ while True:
         matriz = ingresar_entradas(matriz)
     elif accion == 3:
         if not matriz:
-            print("ERROR: Primero debe generar el plan de ventas")
+            print("Error: primero debe generar el plan de ventas")
             continue
         while True:
             print("\nVisualizar el ingreso total de un concierto especifico")
