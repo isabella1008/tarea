@@ -75,7 +75,27 @@ while True:
     elif accion == 2:
         matriz = ingresar_entradas(matriz)
     elif accion == 3:
-        pass
+        if not matriz:
+            print("ERROR: Primero debe generar el plan de ventas")
+            continue
+        while True:
+            print("\nVisualizar el ingreso total de un concierto especifico")
+            try:
+                concierto = int(input("\nIngrese el concierto a calcular y visualizar (1-2): ").strip())
+                if concierto < 1 or concierto > 2:
+                    print("ERROR, seleccione solo 1 o 2")
+                    continue
+                break
+            except:
+                print("Error, debe ingresar un numero valido")
+                continue
+        total_concierto = 0
+        for j in range(len(matriz[concierto-1])):
+            entradas = matriz[concierto-1][j]
+            ingreso = entradas * precio
+            print(f"Concierto {concierto}, Día {j+1}: ${ingreso:,}")
+            total_concierto = total_concierto + ingreso
+        print(f"Total de ingresos del concierto {concierto}: ${total_concierto:,}")
     elif accion == 4:
         if not matriz:
             print("ERROR: Primero debe generar el plan de ventas")
