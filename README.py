@@ -80,24 +80,26 @@ while True:
         if not matriz:
             print("ERROR: Primero debe generar el plan de ventas")
             continue
-        try:
-            dia = int(input("Ingrese el día a visualizar (1-3): ").strip())
-            if dia < 1 or dia > 3:
-                print("ERROR, seleccione solo 1, 2 o 3")
+        while True:
+            try:
+                dia = int(input("Ingrese el día a visualizar (1-3): ").strip())
+                if dia < 1 or dia > 3:
+                    print("ERROR, seleccione solo 1, 2 o 3")
+                    continue
+                break
+            except:
+                print("Error, debe ingresar un numero valido")
                 continue
-        except:
-            print("Error, debe ingresar un numero valido")
-            continue
-        print(f"\nDía {dia}")
-        total_dia = 0
-        for i in range(len(matriz)):
-            entradas = matriz[i][dia-1]
-            ingreso = entradas * precio
-
-            print(f"Concierto {i+1}: {entradas} entradas, ingresos: ${ingreso}")
-            total_dia += ingreso
-
-        print(f"Total de ingresos del día: ${total_dia}")
+            print(f"\nDía {dia}")
+            total_dia = 0
+            for i in range(len(matriz)):
+                entradas = matriz[i][dia-1]
+                ingreso = entradas * precio
+    
+                print(f"Concierto {i+1}: {entradas} entradas, ingresos: ${ingreso}")
+                total_dia += ingreso
+    
+            print(f"Total de ingresos del día: ${total_dia}")
     elif accion == 5: #termino del programa
         print("hasta luego👋")
         input("presione enter para cerrar...")
