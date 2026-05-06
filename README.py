@@ -10,16 +10,16 @@ def ingresar_entradas(matriz):  #funcion para ingresar la cantidad de entradas.
     num_dias = len(matriz[0])
     print("\nIngresar la cantidad de entradas por concierto y día")
     for i in range(num_conciertos):
-        print(f"\nConcierto {i + 1}")
+        print(f"\nConcierto {i + 1}\n")
         for j in range(num_dias):
             while True:
                 try:
-                    cantidad = int(input(f"  Ingrese cantidad de entradas vendidas en el día {j + 1}: "))
+                    cantidad = int(input(f"Ingrese cantidad de entradas vendidas en el día {j + 1}: "))
                     if cantidad < 0:
-                        print("  Error: la cantidad no puede ser negativa.")
+                        print("Error: la cantidad no puede ser negativa.")
  
                     elif cantidad > MAX_ENTRADAS_POR_DIA:
-                        print(f"  Error, la cantidad de entradas máximo a vender por día es {MAX_ENTRADAS_POR_DIA}.")
+                        print(f"Error, la cantidad de entradas máximo a vender por día es {MAX_ENTRADAS_POR_DIA}.")
                     else:
                         matriz[i][j] = cantidad
                         break  # si cumple con las condiciones sale del while.
@@ -33,7 +33,7 @@ def mostrar_matriz(matriz): #con esta funcion se muestra la matriz en la termina
     print("*" * 45)
     encabezado = " " * 15  #se coloca el titulo de los dias ingresados en tabla
     for j in range(num_dias):
-        encabezado += f"{j + 1:>5}"
+        encabezado += f"{j + 1:>4}"
     print(encabezado)
     for i in range(len(matriz)):     #estas son las filas del concierto
         fila = f"Concierto {i + 1:<5}"
@@ -41,17 +41,18 @@ def mostrar_matriz(matriz): #con esta funcion se muestra la matriz en la termina
             fila += f"{valor:>5}"
         print(fila)
     print("*" * 45)
-print("SISTEMA DE PLANIFICACIÓN DE VENTA DE ENTRADAS A CONCIERTOS")
+print("\nMENÚ")
 while True:
     try:
-        accion = int(input("-------------------------------------------- \n1. Generar plan de ventas \n2. Ingresar entradas vendidas \n3. Visualizar ingreso total por concierto \n4. Visualizar ingreso total por día \n5. Salir del programa \n-------------------------------------------- \nAccion: ").strip())
+        accion = int(input("\nSISTEMA DE PLANIFICACIÓN DE VENTA DE ENTRADAS A CONCIERTOS\n-------------------------------------------- \n1. Generar plan de ventas \n2. Ingresar entradas vendidas \n3. Visualizar ingreso total por concierto \n4. Visualizar ingreso total por día \n5. Salir del programa \n-------------------------------------------- \n\nSeleccione su opción: ").strip())
     except:
         print("Error, debe ingresar un numero valido")
         continue
     if accion == 1:
+        print("\nGenerar plan de reserva\n")
         matriz = []
-        conciertos = 2  # filas
-        dias = 3   # columnas
+        conciertos = int(input("Ingrese el numero de conciertos: "))  # filas
+        dias = int(input("Ingrese numero de días de ventas: "))   # columnas
         for i in range(conciertos):  # i = concierto (fila)
             fila = []
             for j in range(dias):  # j = día (columna)
@@ -81,7 +82,7 @@ while True:
         while True:
             print("\nVisualizar el ingreso total de un concierto especifico")
             try:
-                concierto = int(input("\nIngrese el concierto a calcular y visualizar (1-2): ").strip())
+                concierto = int(input("\nIngrese el concierto a calcular y visualizar: \n").strip())
                 if concierto < 1 or concierto > 2:
                     print("ERROR, seleccione solo 1 o 2")
                     continue
@@ -95,36 +96,33 @@ while True:
             ingreso = entradas * precio
             print(f"Concierto {concierto}, Día {j+1}: ${ingreso:,}")
             total_concierto = total_concierto + ingreso
-        print(f"Total de ingresos del concierto {concierto}: ${total_concierto:,}")
+        print(f"Total de ingresos del Concierto {concierto}: ${total_concierto:,}")
     elif accion == 4:
         if not matriz:
             print("ERROR: Primero debe generar el plan de ventas")
             continue
         while True:
+            print("\nVisualizar el ingreso total de un todas los concierto en un dia especifico\n")
             try:
-                dia = int(input("Ingrese el día a visualizar (1-3): ").strip())
+                dia = int(input("Ingrese el día a calcular y visualizar: ").strip())
                 if dia < 1 or dia > 3:
                     print("ERROR, seleccione solo 1, 2 o 3")
-                    continue
-                else:
-                    pass               
+                    continue          
             except:
                 print("Error, debe ingresar un numero valido")
                 continue
-            print(f"\nDía {dia}")
             total_dia = 0
             for i in range(len(matriz)):
                 entradas = matriz[i][dia-1]
                 ingreso = entradas * precio
     
-                print(f"Concierto {i+1}: {entradas} entradas, ingresos: ${ingreso}")
+                print(f"Concierto {i+1}, Día {dia}: ${ingreso:,}")
                 total_dia += ingreso
     
-            print(f"Total de ingresos del día: ${total_dia}")
+            print(f"Total de ingresos del día {dia}: ${total_dia:,}")
             break
     elif accion == 5: #termino del programa
-        print("hasta luego👋")
-        input("presione enter para cerrar...")
+        input("Fin de la ejecución del programa")
         break #termina el while
     else:
         print("ERROR, porfavor seleccione una de las opciones disponibles (1, 2, 3, 4 o 5)") #error si el usuario no ingresa ninguna opcion
