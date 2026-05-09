@@ -84,7 +84,7 @@ while True:
             try:
                 concierto = int(input("\nIngrese el concierto a calcular y visualizar: \n").strip())
                 if concierto < 1 or concierto > len(matriz):
-                    print("ERROR, seleccione solo 1 o 2")
+                    print("ERROR, concierto fuera de rango")
                     continue
                 break
             except:
@@ -114,7 +114,7 @@ while True:
             try:
                 dia = int(input("Ingrese el día a calcular y visualizar: ").strip())
                 if dia < 1 or dia > len(matriz[0]):
-                    print("ERROR, seleccione solo 1, 2 o 3")
+                    print("ERROR, día fuera de rango")
                     continue          
             except:
                 print("Error, debe ingresar un numero valido")
@@ -135,8 +135,7 @@ while True:
             texto += total_linea
             with open("dia.txt", "w") as f:
                 f.write(texto)
-
-                break
+            break
     elif accion == 5: #termino del programa
         input("Fin de la ejecución del programa")
         break #termina el while
