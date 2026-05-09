@@ -83,7 +83,7 @@ while True:
             print("\nVisualizar el ingreso total de un concierto especifico")
             try:
                 concierto = int(input("\nIngrese el concierto a calcular y visualizar: \n").strip())
-                if concierto < 1 or concierto > 2:
+                if concierto < 1 or concierto > len(matriz):
                     print("ERROR, seleccione solo 1 o 2")
                     continue
                 break
@@ -91,12 +91,20 @@ while True:
                 print("Error, debe ingresar un numero valido")
                 continue
         total_concierto = 0
+        texto = ""  # acumulador para archivo
         for j in range(len(matriz[concierto-1])):
             entradas = matriz[concierto-1][j]
             ingreso = entradas * precio
-            print(f"Concierto {concierto}, Día {j+1}: ${ingreso:,}")
+            linea = f"Concierto {concierto}, Día {j+1}: ${ingreso:,}"
+            print(linea)
+            texto += linea + "\n"
             total_concierto = total_concierto + ingreso
-        print(f"Total de ingresos del Concierto {concierto}: ${total_concierto:,}")
+        total_linea = f"Total de ingresos del Concierto {concierto}: ${total_concierto:,}"
+        print(total_linea)
+        texto += total_linea
+        with open("concierto.txt", "w", encoding="utf-8") as f:  # escribir archivo
+            f.write(texto)
+
     elif accion == 4:
         if not matriz:
             print("ERROR: Primero debe generar el plan de ventas")
@@ -105,22 +113,30 @@ while True:
             print("\nVisualizar el ingreso total de un todas los concierto en un dia especifico\n")
             try:
                 dia = int(input("Ingrese el día a calcular y visualizar: ").strip())
-                if dia < 1 or dia > 3:
+                if dia < 1 or dia > len(matriz[0]):
                     print("ERROR, seleccione solo 1, 2 o 3")
                     continue          
             except:
                 print("Error, debe ingresar un numero valido")
                 continue
             total_dia = 0
+            texto = ""
             for i in range(len(matriz)):
                 entradas = matriz[i][dia-1]
                 ingreso = entradas * precio
-    
-                print(f"Concierto {i+1}, Día {dia}: ${ingreso:,}")
+
+                linea = f"Concierto {i+1}, Día {dia}: ${ingreso:,}"
+                print(linea)
+                texto += linea + "\n"
                 total_dia += ingreso
     
-            print(f"Total de ingresos del día {dia}: ${total_dia:,}")
-            break
+            total_linea = f"Total de ingresos del día {dia}: ${total_dia:,}"
+            print(total_linea)
+            texto += total_linea
+            with open("dia.txt", "w") as f:
+                f.write(texto)
+
+                break
     elif accion == 5: #termino del programa
         input("Fin de la ejecución del programa")
         break #termina el while
