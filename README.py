@@ -1,4 +1,3 @@
-🔹 Persona 1: Gestión de clientes
 # SISTEMA DE SOLICITUD DE PRODUCTOS TECNOLÓGICOS
 # Opción 1 completa
 try:
@@ -89,7 +88,108 @@ def visualizar_clientes(clientes):
     print("\nCLIENTES REGISTRADOS\n")
     for cliente in clientes:
         cliente.mostrar()
+
+# GESTIÓN DE PRODUCTOS SOLICITADOS
+ARCHIVO_PRODUCTOS = "productos.csv"
+
+# CLASE PRODUCTO
+class Producto:
+    def __init__(self, rut_cliente, nombre_producto, categoria, cantidad, precio_unitario):
+        self.rut_cliente = rut_cliente
+        self.nombre_producto = nombre_producto
+        self.categoria = categoria
+        self.cantidad = int(cantidad)
+        self.precio_unitario = int(precio_unitario)
+
+    def total(self):
+        return self.cantidad * self.precio_unitario
+
+    def convertir_lista(self):
+        return [self.rut_cliente, self.nombre_producto, self.categoria,
+                self.cantidad, self.precio_unitario]
+
+    def mostrar(self):
+        print("-----------------------------")
+        print("RUT cliente:", self.rut_cliente)
+        print("Producto:", self.nombre_producto)
+        print("Categoría:", self.categoria)
+        print("Cantidad:", self.cantidad)
+        print("Precio unitario:", self.precio_unitario)
+        print("Total:", self.total())
+        print("-----------------------------")
+
+# FUNCIONES DE ARCHIVO (PRODUCTOS)
+def guardar_productos(productos):
+    with open(ARCHIVO_PRODUCTOS, "w", newline="", encoding="utf-8") as archivo:
+        escritor = csv.writer(archivo)
+        for producto in productos:
+            escritor.writerow(producto.convertir_lista())
+
+def cargar_productos():
+    productos = []
+    try:
+        with open(ARCHIVO_PRODUCTOS, "r", newline="", encoding="utf-8") as archivo:
+            lector = csv.reader(archivo)
+            for fila in lector:
+                producto = Producto(fila[0], fila[1], fila[2], fila[3], fila[4])
+                productos.append(producto)
+    except FileNotFoundError:
+        pass
+    return productos
+
+# OPCIÓN 2: Ingresar producto solicitado
+def ingresar_producto(clientes, productos):
+    if len(clientes) == 0:
+        print("\nNo hay clientes registrados. Debe ingresar un cliente primero.\n")
+        return
+
+    rut = input("\nIngrese el RUT del cliente que solicita el producto: ")
+
+    cliente_encontrado = None
+    for cliente in clientes:
+        if cliente.rut == rut:
+            cliente_encontrado = cliente
+            break
+
+    if cliente_encontrado is None:
+        print("\nNo existe un cliente con ese RUT. Debe registrarlo primero.\n")
+        return
+
+    print(f"\nCliente encontrado: {cliente_encontrado.nombres} {cliente_encontrado.apellido_p}")
+
+    nombre_producto = input("Nombre del producto: ")
+    categoria = input("Categoría (notebook, celular, accesorio, etc.): ")
+    cantidad = leer_entero("Cantidad: ")
+    precio_unitario = leer_entero("Precio unitario: ")
+
+    nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio_unitario)
+
+    if nuevo_producto.total() > cliente_encontrado.presupuesto:
+        print("\nAviso: el total del producto supera el presupuesto del cliente.\n")
+
+    productos.append(nuevo_producto)
+    guardar_productos(productos)
+    print("\nProducto registrado correctamente.\n")
+
+# OPCIÓN 4: Visualizar productos solicitados
+def visualizar_productos(productos, clientes):
+    if len(productos) == 0:
+        print("\nNo existen productos solicitados registrados.\n")
+        return
+
+    print("\nPRODUCTOS SOLICITADOS\n")
+    for producto in productos:
+        nombre_cliente = "Desconocido"
+        for cliente in clientes:
+            if cliente.rut == producto.rut_cliente:
+                nombre_cliente = f"{cliente.nombres} {cliente.apellido_p}"
+                break
+        print(f"Cliente: {nombre_cliente}")
+        producto.mostrar()
+
+# ============================================================
 # MENÚ
+# ============================================================
 def mostrar_menu():
     print()
     print("============================================")
@@ -104,6 +204,7 @@ def mostrar_menu():
 # MAIN
 def main():
     clientes = cargar_clientes()
+    productos = cargar_productos()
     while True:
         mostrar_menu()
         try:
@@ -114,11 +215,11 @@ def main():
         if opcion == 1:
             ingresar_cliente(clientes)
         elif opcion == 2:
-            print("\nOpción en construcción.\n")
+            ingresar_producto(clientes, productos)
         elif opcion == 3:
             visualizar_clientes(clientes)
         elif opcion == 4:
-            print("\nOpción en construcción.\n")
+            visualizar_productos(productos, clientes)
         elif opcion == 5:
             print("\nOpción en construcción.\n")
         elif opcion == 6:
@@ -128,18 +229,6 @@ def main():
             print("Opción inválida.")
 if __name__ == "__main__":
     main()
-👉 Parte clave porque define la base del sistema.
-
-🔹 Persona 2: Gestión de productos solicitados
-
-Responsabilidad principal: ingreso y visualización de productos.
-
-Crear estructura de datos para productos
-Función para ingresar productos (opción 2)
-Relacionar producto con cliente (usar RUT)
-Función para mostrar productos (opción 4)
-
-👉 Esta parte es equivalente en complejidad a clientes.
 
 🔹 Persona 3: Validaciones del sistema (lógica del problema)
 
