@@ -1,12 +1,10 @@
 # SISTEMA DE SOLICITUD DE PRODUCTOS TECNOLÓGICOS
-# Opción 1 completa
 try:
     import csv
     import matplotlib.pyplot as plt
 except ModuleNotFoundError:
     pass
 ARCHIVO_CLIENTES = "clientes.csv"
-###ARCHIVO_RESERVAS = "reservas.csv"###
 # CLASE CLIENTE
 class Cliente:
     def __init__(self, rut, nombres, apellido_p, apellido_m, telefono, email, direccion, presupuesto):
@@ -18,10 +16,11 @@ class Cliente:
         self.email = email
         self.direccion = direccion
         self.presupuesto = int(presupuesto)
-    def convertir_lista(self):
-        return [self.rut, self.nombres, self.apellido_p, self.apellido_m, self.telefono, self.email, self.direccion, self.presupuesto]
-    def mostra(self):
 
+    def convertir_lista(self):
+        return [self.rut, self.nombres, self.apellido_p, self.apellido_m,
+                self.telefono, self.email, self.direccion, self.presupuesto]
+    def mostra(self):
         print("-----------------------------")
         print("Rut:", self.rut)
         print("Nombres:", self.nombres)
@@ -32,6 +31,7 @@ class Cliente:
         print("Dirección:", self.direccion)
         print("Presupuesto:", self.presupuesto)
         print("-----------------------------")
+
 # FUNCIONES AUXILIARES
 def leer_entero(mensaje):
     while True:
@@ -43,6 +43,7 @@ def leer_entero(mensaje):
                 return numero
         except ValueError:
             print("Debe ingresar un número.")
+
 def guardar_clientes(clientes):
     with open(ARCHIVO_CLIENTES, "w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
@@ -54,9 +55,8 @@ def cargar_clientes():
         with open(ARCHIVO_CLIENTES, "r", newline="", encoding="utf-8") as archivo:
             lector = csv.reader(archivo)
             for fila in lector:
-                cliente = Cliente(
-                    fila[0],fila[1],fila[2],fila[3],
-                    fila[4],fila[5],fila[6], fila[7])
+                cliente = Cliente(fila[0],fila[1],fila[2],fila[3],
+                                  fila[4],fila[5],fila[6], fila[7])
                 clientes.append(cliente)
     except FileNotFoundError:
         pass
@@ -64,35 +64,71 @@ def cargar_clientes():
 # OPCIÓN 1
 def ingresar_cliente(clientes):
     print("\nIngrese los siguientes datos:\n")
-    rut = input("Rut: ")
+
+    while True:
+        rut = input("Rut: ")
+        if rut.strip() == "":
+            print("El rut no puede estar vacío.")
+        else:
+            break
     for cliente in clientes:
         if cliente.rut == rut:
             print("Ese cliente ya existe.")
             return
-    nombres = input("Nombres: ")
-    apellido_p = input("Apellido paterno: ")
-    apellido_m = input("Apellido materno: ")
-    telefono = input("Teléfono: ")
-    email = input("Email: ")
-    direccion = input("Dirección: ")
+    while True:
+        nombres = input("Nombres: ")
+        if nombres.strip() == "" or nombres.isdigit():
+            print("Ingrese un nombre válido.")
+        else:
+            break
+    while True:
+        apellido_p = input("Apellido paterno: ")
+        if apellido_p.strip() == "" or apellido_p.isdigit():
+            print("Ingrese un apellido válido.")
+        else:
+            break
+    while True:
+        apellido_m = input("Apellido materno: ")
+        if apellido_m.strip() == "" or apellido_m.isdigit():
+            print("Ingrese un apellido válido.")
+        else:
+            break
+    while True:
+        telefono = input("Teléfono: ")
+        if telefono.strip() == "" or not telefono.isdigit():
+            print("Ingrese un teléfono válido.")
+        else:
+            break
+    while True:
+        email = input("Email: ")
+        if "@" not in email or "." not in email:
+            print("Ingrese un email válido.")
+        else:
+            break
+    while True:
+        direccion = input("Dirección: ")
+        if direccion.strip() == "":
+            print("La dirección no puede estar vacía.")
+        else:
+            break
     presupuesto = leer_entero("Presupuesto disponible: ")
-    nuevo = Cliente(rut, nombres, apellido_p, apellido_m, telefono, email, direccion, presupuesto)
+    nuevo = Cliente(rut, nombres, apellido_p, apellido_m,
+                    telefono, email, direccion, presupuesto)
     clientes.append(nuevo)
     guardar_clientes(clientes)
     print("\nCliente registrado correctamente.\n")
-# OPCIÓN 3 (solo para probar)
+
+# OPCIÓN 3
 def visualizar_clientes(clientes):
     if len(clientes) == 0:
         print("\nNo existen clientes registrados.\n")
         return
     print("\nCLIENTES REGISTRADOS\n")
     for cliente in clientes:
-        cliente.mostrar()
-
-# GESTIÓN DE PRODUCTOS SOLICITADOS
+        cliente.mostra()
+# PRODUCTOS
 ARCHIVO_PRODUCTOS = "productos.csv"
 
-# CLASE PRODUCTO
 class Producto:
     def __init__(self, rut_cliente, nombre_producto, categoria, cantidad, precio_unitario):
         self.rut_cliente = rut_cliente
@@ -118,7 +154,6 @@ class Producto:
         print("Total:", self.total())
         print("-----------------------------")
 
-# FUNCIONES DE ARCHIVO (PRODUCTOS)
 def guardar_productos(productos):
     with open(ARCHIVO_PRODUCTOS, "w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
@@ -137,44 +172,84 @@ def cargar_productos():
         pass
     return productos
 
-# OPCIÓN 2: Ingresar producto solicitado
+# OPCIÓN 2 (PERSONA 3)
 def ingresar_producto(clientes, productos):
     if len(clientes) == 0:
-        print("\nNo hay clientes registrados. Debe ingresar un cliente primero.\n")
+        print("\nNo hay clientes registrados.\n")
         return
 
-    rut = input("\nIngrese el RUT del cliente que solicita el producto: ")
+    while True:
+        rut = input("\nIngrese el RUT del cliente: ")
+        if rut.strip() == "":
+            print("El RUT no puede estar vacío.")
+        else:
+            break
 
     cliente_encontrado = None
     for cliente in clientes:
         if cliente.rut == rut:
             cliente_encontrado = cliente
             break
-
     if cliente_encontrado is None:
-        print("\nNo existe un cliente con ese RUT. Debe registrarlo primero.\n")
+        print("\nCliente no existe.\n")
         return
+    while True:
+        nombre_producto = input("Nombre producto: ")
+        if nombre_producto.strip() == "":
+            print("No puede estar vacío.")
+        else:
+            break
+    while True:
+        categoria = input("Categoría: ")
+        if categoria.strip() == "" or categoria.isdigit():
+            print("Categoría inválida.")
+        else:
+            break
+    # --- lógica del sistema ---
+    while True:
+        try:
+            cantidad = int(input("Cantidad: "))
+            if cantidad <= 0:
+                print("Debe ser mayor a 0.")
+            else:
+                break
+        except:
+            print("Número inválido.")
 
-    print(f"\nCliente encontrado: {cliente_encontrado.nombres} {cliente_encontrado.apellido_p}")
+    while True:
+        try:
+            precio = int(input("Precio: "))
+            if precio <= 0:
+                print("Debe ser mayor a 0.")
+            else:
+                break
+        except:
+            print("Número inválido.")
+    total = cantidad * precio  # cálculo total
+    intentos = 0
+    while total > cliente_encontrado.presupuesto:  # validación presupuesto
+        print("Supera presupuesto.")
+        try:
+            nuevo = int(input("Nuevo presupuesto: "))
+            cliente_encontrado.presupuesto = nuevo
+        except:
+            print("Error.")
 
-    nombre_producto = input("Nombre del producto: ")
-    categoria = input("Categoría (notebook, celular, accesorio, etc.): ")
-    cantidad = leer_entero("Cantidad: ")
-    precio_unitario = leer_entero("Precio unitario: ")
-
-    nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio_unitario)
-
-    if nuevo_producto.total() > cliente_encontrado.presupuesto:
-        print("\nAviso: el total del producto supera el presupuesto del cliente.\n")
-
+        intentos += 1
+        if intentos == 3:
+            print("Cancelado.")
+            return
+    # -------------------------
+    nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio)
     productos.append(nuevo_producto)
     guardar_productos(productos)
-    print("\nProducto registrado correctamente.\n")
 
-# OPCIÓN 4: Visualizar productos solicitados
+    print("\nProducto registrado.\n")
+
+# OPCIÓN 4
 def visualizar_productos(productos, clientes):
     if len(productos) == 0:
-        print("\nNo existen productos solicitados registrados.\n")
+        print("\nNo existen productos.\n")
         return
 
     print("\nPRODUCTOS SOLICITADOS\n")
@@ -186,10 +261,7 @@ def visualizar_productos(productos, clientes):
                 break
         print(f"Cliente: {nombre_cliente}")
         producto.mostrar()
-
-# ============================================================
 # MENÚ
-# ============================================================
 def mostrar_menu():
     print()
     print("============================================")
@@ -201,10 +273,12 @@ def mostrar_menu():
     print("4. Visualizar productos solicitados")
     print("5. Visualizar gráfico del presupuesto")
     print("6. Salir")
+
 # MAIN
 def main():
     clientes = cargar_clientes()
     productos = cargar_productos()
+
     while True:
         mostrar_menu()
         try:
@@ -212,6 +286,7 @@ def main():
         except ValueError:
             print("Debe ingresar un número.")
             continue
+
         if opcion == 1:
             ingresar_cliente(clientes)
         elif opcion == 2:
@@ -227,19 +302,9 @@ def main():
             break
         else:
             print("Opción inválida.")
+
 if __name__ == "__main__":
     main()
-
-🔹 Persona 3: Validaciones del sistema (lógica del problema)
-
-Responsabilidad principal: reglas del negocio.
-
-Validar stock disponible
-Validar presupuesto del cliente
-Reintentos cuando datos no cumplen condiciones (como en el ejemplo)
-Calcular costo total (precio × cantidad)
-
-👉 Muy importante: aquí se gana mucho puntaje en la rúbrica (lógica + integración).
 
 🔹 Persona 4: Manejo de archivos (lectura/escritura)
 
