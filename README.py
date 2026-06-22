@@ -7,6 +7,7 @@ except ModuleNotFoundError:
 
 ARCHIVO_CLIENTES = "clientes.csv"
 
+# CLASE CLIENTE
 class Cliente:
     def __init__(self, rut, nombres, apellido_p, apellido_m, telefono, email, direccion, presupuesto):
         self.rut = rut
@@ -34,6 +35,16 @@ class Cliente:
         print("Presupuesto:", self.presupuesto)
         print("-----------------------------")
 
+# =========================
+# PERSONA 4 (TU PARTE)
+# =========================
+
+def guardar_cliente_individual(cliente):
+    with open(ARCHIVO_CLIENTES, "a", newline="", encoding="utf-8") as archivo:
+        escritor = csv.writer(archivo)
+        escritor.writerow(cliente.convertir_lista())
+
+# FUNCIONES AUXILIARES
 def leer_entero(mensaje):
     while True:
         try:
@@ -43,7 +54,7 @@ def leer_entero(mensaje):
             else:
                 return numero
         except ValueError:
-            print("Debe ingresar un número válido.")
+            print("Debe ingresar un número.")
 
 def guardar_clientes(clientes):
     with open(ARCHIVO_CLIENTES, "w", newline="", encoding="utf-8") as archivo:
@@ -64,61 +75,60 @@ def cargar_clientes():
         pass
     return clientes
 
+# OPCIÓN 1
 def ingresar_cliente(clientes):
     print("\nIngrese los siguientes datos:\n")
 
     while True:
-        rut = input("Rut: ").strip()
-        if rut == "":
+        rut = input("Rut: ")
+        if rut.strip() == "":
             print("El rut no puede estar vacío.")
         else:
-            existe = False
-            for c in clientes:
-                if c.rut == rut:
-                    existe = True
-            if existe:
-                print("Ese cliente ya existe.")
-            else:
-                break
+            break
+
+    for cliente in clientes:
+        if cliente.rut == rut:
+            print("Ese cliente ya existe.")
+            return
 
     while True:
-        nombres = input("Nombres: ").strip()
-        if nombres == "" or nombres.isdigit():
+        nombres = input("Nombres: ")
+        if nombres.strip() == "" or nombres.isdigit():
             print("Ingrese un nombre válido.")
         else:
             break
 
     while True:
-        apellido_p = input("Apellido paterno: ").strip()
-        if apellido_p == "" or apellido_p.isdigit():
+        apellido_p = input("Apellido paterno: ")
+        if apellido_p.strip() == "" or apellido_p.isdigit():
             print("Ingrese un apellido válido.")
         else:
             break
 
     while True:
-        apellido_m = input("Apellido materno: ").strip()
-        if apellido_m == "" or apellido_m.isdigit():
+        apellido_m = input("Apellido materno: ")
+        if apellido_m.strip() == "" or apellido_m.isdigit():
             print("Ingrese un apellido válido.")
         else:
             break
 
     while True:
-        telefono = input("Teléfono: ").strip()
-        if telefono == "" or not telefono.isdigit():
+        telefono = input("Teléfono: ")
+        if telefono.strip() == "" or not telefono.isdigit():
             print("Ingrese un teléfono válido.")
         else:
             break
 
     while True:
-        email = input("Email: ").strip()
+        email = input("Email: ")
         if "@" not in email or "." not in email:
             print("Ingrese un email válido.")
         else:
             break
 
     while True:
-        direccion = input("Dirección: ").strip()
-        if direccion == "":
+        direccion = input("Dirección: ")
+        if direccion.strip() == "":
             print("La dirección no puede estar vacía.")
         else:
             break
@@ -129,18 +139,21 @@ def ingresar_cliente(clientes):
                     telefono, email, direccion, presupuesto)
 
     clientes.append(nuevo)
-    guardar_clientes(clientes)
+
+    guardar_cliente_individual(nuevo)  
+
     print("\nCliente registrado correctamente.\n")
 
+# OPCIÓN 3
 def visualizar_clientes(clientes):
     if len(clientes) == 0:
         print("\nNo existen clientes registrados.\n")
         return
-
     print("\nCLIENTES REGISTRADOS\n")
     for cliente in clientes:
         cliente.mostra()
 
+# PRODUCTOS
 ARCHIVO_PRODUCTOS = "productos.csv"
 
 class Producto:
@@ -168,6 +181,15 @@ class Producto:
         print("Total:", self.total())
         print("-----------------------------")
 
+# =========================
+# PERSONA 4 (TU PARTE)
+# =========================
+
+def guardar_producto_individual(producto):
+    with open(ARCHIVO_PRODUCTOS, "a", newline="", encoding="utf-8") as archivo:
+        escritor = csv.writer(archivo)
+        escritor.writerow(producto.convertir_lista())
+
 def guardar_productos(productos):
     with open(ARCHIVO_PRODUCTOS, "w", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
@@ -186,14 +208,15 @@ def cargar_productos():
         pass
     return productos
 
+# OPCIÓN 2 (PERSONA 3)
 def ingresar_producto(clientes, productos):
     if len(clientes) == 0:
         print("\nNo hay clientes registrados.\n")
         return
 
     while True:
-        rut = input("\nIngrese el RUT del cliente: ").strip()
-        if rut == "":
+        rut = input("\nIngrese el RUT del cliente: ")
+        if rut.strip() == "":
             print("El RUT no puede estar vacío.")
         else:
             break
@@ -202,21 +225,22 @@ def ingresar_producto(clientes, productos):
     for cliente in clientes:
         if cliente.rut == rut:
             cliente_encontrado = cliente
+            break
 
     if cliente_encontrado is None:
         print("\nCliente no existe.\n")
         return
 
     while True:
-        nombre_producto = input("Nombre producto: ").strip()
-        if nombre_producto == "":
+        nombre_producto = input("Nombre producto: ")
+        if nombre_producto.strip() == "":
             print("No puede estar vacío.")
         else:
             break
 
     while True:
-        categoria = input("Categoría: ").strip()
-        if categoria == "" or categoria.isdigit():
+        categoria = input("Categoría: ")
+        if categoria.strip() == "" or categoria.isdigit():
             print("Categoría inválida.")
         else:
             break
@@ -242,16 +266,13 @@ def ingresar_producto(clientes, productos):
             print("Número inválido.")
 
     total = cantidad * precio
-
     intentos = 0
+
     while total > cliente_encontrado.presupuesto:
         print("Supera presupuesto.")
         try:
             nuevo = int(input("Nuevo presupuesto: "))
-            if nuevo > 0:
-                cliente_encontrado.presupuesto = nuevo
-            else:
-                print("Debe ser positivo.")
+            cliente_encontrado.presupuesto = nuevo
         except:
             print("Error.")
 
@@ -262,11 +283,12 @@ def ingresar_producto(clientes, productos):
 
     nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio)
     productos.append(nuevo_producto)
-    guardar_productos(productos)
+
+    guardar_producto_individual(nuevo_producto)  
 
     print("\nProducto registrado.\n")
 
-# 👉 PARTE 4 MEJORADA
+# OPCIÓN 4
 def visualizar_productos(productos, clientes):
     if len(productos) == 0:
         print("\nNo existen productos.\n")
@@ -278,11 +300,11 @@ def visualizar_productos(productos, clientes):
         for cliente in clientes:
             if cliente.rut == producto.rut_cliente:
                 nombre_cliente = f"{cliente.nombres} {cliente.apellido_p}"
-                break  # 🔹 mejora: corta el ciclo cuando encuentra el cliente
-
+                break
         print(f"Cliente: {nombre_cliente}")
         producto.mostrar()
 
+# MENÚ
 def mostrar_menu():
     print()
     print("============================================")
@@ -295,6 +317,7 @@ def mostrar_menu():
     print("5. Visualizar gráfico del presupuesto")
     print("6. Salir")
 
+# MAIN
 def main():
     clientes = cargar_clientes()
     productos = cargar_productos()
