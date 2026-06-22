@@ -6,8 +6,6 @@ except ModuleNotFoundError:
     pass
 
 ARCHIVO_CLIENTES = "clientes.csv"
-
-# CLASE CLIENTE
 class Cliente:
     def __init__(self, rut, nombres, apellido_p, apellido_m, telefono, email, direccion, presupuesto):
         self.rut = rut
@@ -35,16 +33,11 @@ class Cliente:
         print("Presupuesto:", self.presupuesto)
         print("-----------------------------")
 
-# =========================
-# PERSONA 4 (TU PARTE)
-# =========================
-
 def guardar_cliente_individual(cliente):
     with open(ARCHIVO_CLIENTES, "a", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
         escritor.writerow(cliente.convertir_lista())
 
-# FUNCIONES AUXILIARES
 def leer_entero(mensaje):
     while True:
         try:
@@ -69,82 +62,65 @@ def cargar_clientes():
             lector = csv.reader(archivo)
             for fila in lector:
                 cliente = Cliente(fila[0],fila[1],fila[2],fila[3],
-                                  fila[4],fila[5],fila[6], fila[7])
+                                  fila[4],fila[5],fila[6],fila[7])
                 clientes.append(cliente)
     except FileNotFoundError:
         pass
     return clientes
 
-# OPCIÓN 1
 def ingresar_cliente(clientes):
     print("\nIngrese los siguientes datos:\n")
-
     while True:
         rut = input("Rut: ")
         if rut.strip() == "":
             print("El rut no puede estar vacío.")
         else:
             break
-
     for cliente in clientes:
         if cliente.rut == rut:
             print("Ese cliente ya existe.")
             return
-
     while True:
         nombres = input("Nombres: ")
         if nombres.strip() == "" or nombres.isdigit():
             print("Ingrese un nombre válido.")
         else:
             break
-
     while True:
         apellido_p = input("Apellido paterno: ")
         if apellido_p.strip() == "" or apellido_p.isdigit():
             print("Ingrese un apellido válido.")
         else:
             break
-
     while True:
         apellido_m = input("Apellido materno: ")
         if apellido_m.strip() == "" or apellido_m.isdigit():
             print("Ingrese un apellido válido.")
         else:
             break
-
     while True:
         telefono = input("Teléfono: ")
         if telefono.strip() == "" or not telefono.isdigit():
             print("Ingrese un teléfono válido.")
         else:
             break
-
     while True:
         email = input("Email: ")
         if "@" not in email or "." not in email:
             print("Ingrese un email válido.")
         else:
             break
-
     while True:
         direccion = input("Dirección: ")
         if direccion.strip() == "":
             print("La dirección no puede estar vacía.")
         else:
             break
-
     presupuesto = leer_entero("Presupuesto disponible: ")
-
-    nuevo = Cliente(rut, nombres, apellido_p, apellido_m,
-                    telefono, email, direccion, presupuesto)
-
+    nuevo = Cliente(rut, nombres, apellido_p, apellido_m, telefono, email, direccion, presupuesto)
     clientes.append(nuevo)
-
-    guardar_cliente_individual(nuevo)  
-
+    guardar_cliente_individual(nuevo)
     print("\nCliente registrado correctamente.\n")
-
-# OPCIÓN 3
 def visualizar_clientes(clientes):
     if len(clientes) == 0:
         print("\nNo existen clientes registrados.\n")
@@ -152,39 +128,37 @@ def visualizar_clientes(clientes):
     print("\nCLIENTES REGISTRADOS\n")
     for cliente in clientes:
         cliente.mostra()
-
-# PRODUCTOS
 ARCHIVO_PRODUCTOS = "productos.csv"
 
 class Producto:
-    def __init__(self, rut_cliente, nombre_producto, categoria, cantidad, precio_unitario):
+    def __init__(self, rut_cliente, codigo, nombre_producto, categoria, marca, modelo, stock, precio, cantidad):
         self.rut_cliente = rut_cliente
+        self.codigo = codigo
         self.nombre_producto = nombre_producto
         self.categoria = categoria
+        self.marca = marca
+        self.modelo = modelo
+        self.stock = int(stock)
+        self.precio = int(precio)
         self.cantidad = int(cantidad)
-        self.precio_unitario = int(precio_unitario)
 
     def total(self):
-        return self.cantidad * self.precio_unitario
+        return self.precio * self.cantidad
 
     def convertir_lista(self):
-        return [self.rut_cliente, self.nombre_producto, self.categoria,
-                self.cantidad, self.precio_unitario]
+        return [self.rut_cliente,self.codigo,self.nombre_producto,self.categoria,self.marca,self.modelo,self.stock,self.precio,self.cantidad]
 
     def mostrar(self):
-        print("-----------------------------")
-        print("RUT cliente:", self.rut_cliente)
-        print("Producto:", self.nombre_producto)
+        print("Rut:", self.rut_cliente)
+        print("Código del producto:", self.codigo)
+        print("Nombre del producto:", self.nombre_producto)
         print("Categoría:", self.categoria)
-        print("Cantidad:", self.cantidad)
-        print("Precio unitario:", self.precio_unitario)
-        print("Total:", self.total())
-        print("-----------------------------")
-
-# =========================
-# PERSONA 4 (TU PARTE)
-# =========================
-
+        print("Marca:", self.marca)
+        print("Modelo:", self.modelo)
+        print("Stock disponible:", self.stock)
+        print("Precio:", self.precio)
+        print("Cantidad solicitada:", self.cantidad)
+        print()
 def guardar_producto_individual(producto):
     with open(ARCHIVO_PRODUCTOS, "a", newline="", encoding="utf-8") as archivo:
         escritor = csv.writer(archivo)
@@ -202,109 +176,86 @@ def cargar_productos():
         with open(ARCHIVO_PRODUCTOS, "r", newline="", encoding="utf-8") as archivo:
             lector = csv.reader(archivo)
             for fila in lector:
-                producto = Producto(fila[0], fila[1], fila[2], fila[3], fila[4])
+                producto = Producto(fila[0],
+                    fila[1], fila[2], fila[3], fila[4],
+                    fila[5], fila[6], fila[7], fila[8])
                 productos.append(producto)
     except FileNotFoundError:
         pass
     return productos
 
-# OPCIÓN 2 (PERSONA 3)
 def ingresar_producto(clientes, productos):
     if len(clientes) == 0:
-        print("\nNo hay clientes registrados.\n")
+        print("\nNo existen clientes registrados.")
         return
-
-    while True:
-        rut = input("\nIngrese el RUT del cliente: ")
-        if rut.strip() == "":
-            print("El RUT no puede estar vacío.")
-        else:
+    print("\nIngrese los siguientes datos")
+    rut = input("Rut: ")
+    cliente = None
+    for c in clientes:
+        if c.rut == rut:
+            cliente = c
             break
-
-    cliente_encontrado = None
-    for cliente in clientes:
-        if cliente.rut == rut:
-            cliente_encontrado = cliente
-            break
-
-    if cliente_encontrado is None:
-        print("\nCliente no existe.\n")
+    if cliente is None:
+        print("Cliente no registrado.")
         return
-
+    codigo = input("Código del producto: ")
+    nombre = input("Nombre del producto: ")
+    categoria = input("Categoría: ")
+    marca = input("Marca: ")
+    modelo = input("Modelo: ")
+    stock = leer_entero("Stock disponible: ")
+    precio = leer_entero("Precio: ")
     while True:
-        nombre_producto = input("Nombre producto: ")
-        if nombre_producto.strip() == "":
-            print("No puede estar vacío.")
-        else:
-            break
+        cantidad = leer_entero("Cantidad solicitada: ")
+        if cantidad > stock:
+            print(f"La cantidad solicitada muy alta, el stock disponible es de: {stock}")
+            continue
+        total = cantidad * precio
+        if total > cliente.presupuesto:
+            print(f"Su presupuesto disponible es de {cliente.presupuesto}, el monto de la compra es de {total}")
+            continue
+        break
+    producto = Producto(rut,codigo,nombre,categoria,marca,modelo,stock,precio,cantidad)
+    productos.append(producto)
+    guardar_producto_individual(producto)
+    print("\nProducto registrado correctamente.")
 
-    while True:
-        categoria = input("Categoría: ")
-        if categoria.strip() == "" or categoria.isdigit():
-            print("Categoría inválida.")
-        else:
-            break
+def visualizar_productos(productos):
 
-    while True:
-        try:
-            cantidad = int(input("Cantidad: "))
-            if cantidad <= 0:
-                print("Debe ser mayor a 0.")
-            else:
-                break
-        except:
-            print("Número inválido.")
-
-    while True:
-        try:
-            precio = int(input("Precio: "))
-            if precio <= 0:
-                print("Debe ser mayor a 0.")
-            else:
-                break
-        except:
-            print("Número inválido.")
-
-    total = cantidad * precio
-    intentos = 0
-
-    while total > cliente_encontrado.presupuesto:
-        print("Supera presupuesto.")
-        try:
-            nuevo = int(input("Nuevo presupuesto: "))
-            cliente_encontrado.presupuesto = nuevo
-        except:
-            print("Error.")
-
-        intentos += 1
-        if intentos == 3:
-            print("Cancelado.")
-            return
-
-    nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio)
-    productos.append(nuevo_producto)
-
-    guardar_producto_individual(nuevo_producto)  
-
-    print("\nProducto registrado.\n")
-
-# OPCIÓN 4
-def visualizar_productos(productos, clientes):
     if len(productos) == 0:
-        print("\nNo existen productos.\n")
+        print("\nNo existen productos registrados.\n")
         return
 
-    print("\nPRODUCTOS SOLICITADOS\n")
-    for producto in productos:
-        nombre_cliente = "Desconocido"
-        for cliente in clientes:
-            if cliente.rut == producto.rut_cliente:
-                nombre_cliente = f"{cliente.nombres} {cliente.apellido_p}"
-                break
-        print(f"Cliente: {nombre_cliente}")
-        producto.mostrar()
+    print("\nVisualizar datos de productos solicitados:\n")
 
-# MENÚ
+    for producto in productos:
+        producto.mostrar()
+def graficar_presupuestos(clientes):
+
+    if len(clientes) == 0:
+        print("\nNo existen clientes registrados.\n")
+        return
+
+    nombres = []
+    presupuestos = []
+
+    for cliente in clientes:
+        nombres.append(cliente.nombres)
+        presupuestos.append(cliente.presupuesto)
+
+    plt.figure(figsize=(10,6))
+
+    plt.bar(nombres, presupuestos)
+
+    plt.title("Presupuesto disponible de los clientes")
+    plt.xlabel("Clientes")
+    plt.ylabel("Presupuesto ($)")
+
+    plt.xticks(rotation=20)
+
+    plt.tight_layout()
+
+    plt.show()
 def mostrar_menu():
     print()
     print("============================================")
@@ -317,7 +268,6 @@ def mostrar_menu():
     print("5. Visualizar gráfico del presupuesto")
     print("6. Salir")
 
-# MAIN
 def main():
     clientes = cargar_clientes()
     productos = cargar_productos()
@@ -337,9 +287,9 @@ def main():
         elif opcion == 3:
             visualizar_clientes(clientes)
         elif opcion == 4:
-            visualizar_productos(productos, clientes)
+            visualizar_productos(productos)
         elif opcion == 5:
-            print("\nOpción en construcción.\n")
+            graficar_presupuestos(clientes)
         elif opcion == 6:
             print("\nPrograma finalizado.")
             break
@@ -348,16 +298,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-🔹 Persona 5: Menú principal + gráfico
-
-Responsabilidad principal: interacción y flujo del programa.
-
-Crear el menú principal con todas las opciones
-Controlar el loop del programa (while)
-Llamar a las funciones de los demás
-Implementar opción 5: gráfico del presupuesto
-Puede usar matplotlib (recomendado)
-Opción 6: salida del programa
-
-👉 Este rol integra todo el sistema.
