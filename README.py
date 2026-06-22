@@ -140,7 +140,7 @@ def ingresar_cliente(clientes):
 
     clientes.append(nuevo)
 
-    guardar_cliente_individual(nuevo)  # 👈 SOLO CAMBIO
+    guardar_cliente_individual(nuevo)  
 
     print("\nCliente registrado correctamente.\n")
 
@@ -284,7 +284,7 @@ def ingresar_producto(clientes, productos):
     nuevo_producto = Producto(rut, nombre_producto, categoria, cantidad, precio)
     productos.append(nuevo_producto)
 
-    guardar_producto_individual(nuevo_producto)  # 👈 SOLO CAMBIO
+    guardar_producto_individual(nuevo_producto)  
 
     print("\nProducto registrado.\n")
 
